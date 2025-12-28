@@ -1,0 +1,55 @@
+# Coldjail ❄️🧱
+
+---
+
+O **Coldjail** é um experimento de isolamento de processos para sistemas Linux, desenvolvido do zero (`from scratch`) com o objetivo de explorar as capacidades nativas do Kernel 
+para a criação de sandboxes e containers minimalistas.
+
+Diferente de ferramentas complexas como o Firejail, o Coldjail foca no uso direto de chamadas de sistema (**syscalls**) para garantir uma base de código pequena, auditável e 
+altamente educativa. 
+
+
+## 🎯 Objetivos do Projeto
+
+- **Isolamento de Filesystem:** Utilização de `pivot_root` e mount namespaces para criar uma raiz (`/`) totalmente independente do sistema hospedeiro.
+
+- **Isolamento de Processos:** Uso de `PID Namespaces` para que o processo enjaulado não consiga visualizar ou interagir com processos externos.
+
+- **Minimalismo:** Dependência zero de bibliotecas externas (além da `glibc`) e foco em binários estáticos (como BusyBox).
+
+- **Aprendizado de Baixo Nível:** Implementação manual de montagens de sistemas virtuais (`/proc`, `/sys`, `/dev`).
+
+
+## 🛠️ Arquitetura e Implementação
+
+O projeto segue uma abordagem modular de desenvolvimento:
+
+- **Process Management:** Criação de processos filhos isolados via `fork()` e `waitpid()`.
+
+- **Namespacing:** Aplicação de `unshare()` para desassociar recursos do host (`MNT`, `PID`, `UTS`, `IPC`).
+
+- **Filesystem Pivoting:** Transição para o novo rootfs utilizando o mecanismo de `pivot_root` (superior ao `chroot` padrão POSIX).
+
+- **Device Setup:** Criação manual de dispositivos essenciais via `mknod()`.
+
+
+## 🚀 Como testar (Em desenvolvimento)
+
+> [!WARNING]
+> Atualmente, o projeto exige privilégios de superusuário (`sudo`) para manipulação de namespaces e pontos de montagem. Não é sugerido o uso de Coldjail em ambientes de produção.
+
+
+### Compilação
+```bash
+gcc main.c -o coldjail 
+```
+
+### Execução (Exemplo com rootfs preparado)
+```
+sudo ./coldjail ./cold_jail
+```
+
+### 📜 Licença e Inspiração
+
+Este projeto é inspirado pelos conceitos de sandboxing do **Firejail**, mas não compartilha código com o mesmo. É uma implementação original focada em estudo acadêmico e técnico de 
+sistemas operacionais.
