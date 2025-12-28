@@ -1,5 +1,7 @@
 # Coldjail ❄️🧱
 
+*Segurança por padrão*
+
 ---
 
 O **Coldjail** é um experimento de isolamento de processos para sistemas Linux, desenvolvido do zero (`from scratch`) com o objetivo de explorar as capacidades nativas do Kernel 
