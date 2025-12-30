@@ -11,6 +11,19 @@ Diferente de ferramentas complexas como o Firejail, o Coldjail foca no uso diret
 altamente educativa. 
 
 
+> [!NOTE]
+> Mesmo fazendo uso de funções POSIX, Coldjail é uma aplicação `Linux-only`. Ou seja, não é compatível com sistemas Unix/BSD e/ou Windows.
+
+
+> [!NOTE]
+> **Limitação do parser atual (v0.1):**  
+> A CLI exige que os argumentos estejam **exatamente nesta ordem**:  
+> ```bash
+> ./coldjail <rootfs> [--net=none]
+> ```  
+> Flags antes do `rootfs` ou múltiplas opções **não são suportadas**.  
+
+
 ## 🎯 Objetivos do Projeto
 
 - **Isolamento de Filesystem:** Utilização de `pivot_root` e mount namespaces para criar uma raiz (`/`) totalmente independente do sistema hospedeiro.
