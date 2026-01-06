@@ -11,19 +11,19 @@ static int do_pivot_root(const char *new_root, const char *put_old) {
 
 int setup_mounts(const char *rootfs) {
     if (mount(rootfs, rootfs, NULL, MS_BIND | MS_REC, NULL) == -1) {
-        perror("[-] Falha no bind mount do rootfs");
+          perror("[-] Failed to bind-mount rootfs");
         return 1;
     }
 
     if (chdir(rootfs) == -1) {
-        perror("[-] Falha no chdir rootfs");
+          perror("[-] Failed to chdir into rootfs");
         return 1;
     }
 
     mkdir("old_root", 0700);
 
     if (do_pivot_root(".", "old_root") == -1) {
-        perror("[-] Falha no pivot_root");
+          perror("[-] Failed to pivot_root");
         return 1;
     }
 
@@ -40,7 +40,7 @@ int setup_mounts(const char *rootfs) {
     mount(NULL, "/dev/pts", "devpts", 0, NULL);
 
     if (umount2("/old_root", MNT_DETACH) == -1) {
-        perror("[-] Falha ao desmontar old_root");
+         perror("[-] Failed to unmount old_root");
     }
     rmdir("/old_root");
 

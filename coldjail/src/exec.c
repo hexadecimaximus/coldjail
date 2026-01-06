@@ -2,7 +2,7 @@
 #include <unistd.h>
 
 int exec_shell(void) {
-    char *args[] = {"/bin/sh", NULL};
+    char *args[] = {"/bin/sh", "-i", NULL};
     char *envp[] = {
         "PATH=/bin:/sbin:/usr/bin:/usr/sbin",
         "TERM=xterm",
@@ -10,9 +10,9 @@ int exec_shell(void) {
         NULL
     };
     
-    printf("\nColdjail - Segurança por padrão, simplicidade por design\nPressione CTRL + D para sair\n");
+    printf("\nColdjail - Security by default, simplicity by design\nPress CTRL + D to exit\n");
     execve("/bin/sh", args, envp);
-    perror("[-] Falha exec shell");
+    perror("[-] Failed to exec shell");
     return 1;
 }
 

@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (argc < 2) {
-        fprintf(stderr, "Uso: %s <rootfs> [--net=none]\n", argv[0]);
+        fprintf(stderr, "Usage: sudo %s <rootfs> [--net=none]\n", argv[0]);
         return 1;
     }
 

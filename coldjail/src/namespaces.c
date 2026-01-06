@@ -15,23 +15,23 @@ int setup_namespaces(int net_none) {
 
     if (net_none) {
         flags |= CLONE_NEWNET;
-        printf("[*] Namespace de rede isolado (CLONE_NEWNET)\n");
+          printf("[*] Network namespace isolated (CLONE_NEWNET)\n");
     }
 
     if (unshare(flags) == -1) {
-        perror("[-] Falha no unshare");
+          perror("[-] Failed to unshare");
         return 1;
     }
 
     if (mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL) == -1) {
-        perror("[-] Falha ao tornar mounts privados");
+          perror("[-] Failed to make mounts private");
         return 1;
     }
 
-    // segundo fork para neto virar PID 1
+    // second fork so grandchild becomes PID 1
     pid_t init = fork();
     if (init < 0) {
-        perror("[-] Falha no fork do init");
+          perror("[-] Failed to fork init");
         return 1;
     }
     if (init > 0) {
