@@ -7,3 +7,6 @@
 ### Chores
 - Adopted Semantic Versioning (MAJOR.MINOR.PATCH) for releases.
 - Initial version `v0.1` is now formally `v0.1.0`.
+
+### Added
+- coldjail logo
