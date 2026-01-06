@@ -1,4 +1,3 @@
-![Coldjail Logo](assets/coldjail-logo.png)
 <p align="center">
   <img src="assets/coldjail-logo.png" width="400"/>
 </p>
