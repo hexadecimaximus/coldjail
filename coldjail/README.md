@@ -16,6 +16,8 @@ Unlike complex tools such as Firejail, Coldjail focuses on the direct use of **s
 - **Filesystem Isolation:** Using `pivot_root` within a `mount namespace` to create a root (`/`) completely independent of the host system — overcoming `chroot` limitations.
 - **Process & Identity Isolation:** Employment of `PID` and `UTS namespaces` to isolate the process tree and define a custom hostname.
 - **Minimalism:** Zero external dependencies (beyond `glibc`), focusing on static binaries like **BusyBox** for the rootfs.
+> [!NOTE]
+> Busy Box 1.37.0 or highter
 - **Low-level Learning:** Manual implementation of virtual mounts (`/proc`, `/sys`, `/tmp`) and direct exploration of the Kernel-Userland interface.
 
 ## 🛠️ Architecture & Implementation (v0.1)
