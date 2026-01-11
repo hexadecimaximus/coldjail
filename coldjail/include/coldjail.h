@@ -1,3 +1,10 @@
+/*
+ * Coldjail - Minimalist Linux sandbox
+ * Copyright (c) 2026 Rodrigo de Freitas
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 #ifndef COLDJAIL_H
 #define COLDJAIL_H
 

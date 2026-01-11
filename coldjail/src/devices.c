@@ -1,3 +1,10 @@
+/*
+ * Coldjail - Minimalist Linux sandbox
+ * Copyright (c) 2026 Rodrigo de Freitas
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 #include <sys/stat.h>
 #include <sys/sysmacros.h>
 #include <unistd.h>
