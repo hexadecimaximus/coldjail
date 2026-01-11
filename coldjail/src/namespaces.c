@@ -15,7 +15,7 @@
 
 int setup_namespaces_impl(ColdJail *cj) {
     int flags = CLONE_NEWNS | CLONE_NEWPID | CLONE_NEWUTS;
-    if (cj->net_none) {
+    if (coldjail_get_net_none(cj)) {
         flags |= CLONE_NEWNET;
         printf("[*] Network namespace isolated (CLONE_NEWNET)\n");
     }
