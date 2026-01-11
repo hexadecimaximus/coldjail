@@ -1,12 +1,21 @@
-CC=gcc
-CFLAGS=-Iinclude -Wall -Wextra
+CC = gcc
+CFLAGS = -Iinclude -Wall -Wextra -O2 -D_GNU_SOURCE
+SRCDIR = src
+OBJDIR = build
+SOURCES = $(wildcard $(SRCDIR)/*.c)
+OBJECTS = $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+TARGET = coldjail
 
-SRC=$(wildcard src/*.c)
-OBJ=$(SRC:.c=.o)
+$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-coldjail: $(OBJ)
-	$(CC) $(OBJ) -o coldjail
+$(OBJDIR):
+	mkdir -p $@
+
+$(TARGET): $(OBJECTS)
+	$(CC) $^ -o $@
 
 clean:
-	rm -f src/*.o coldjail
+	rm -rf $(OBJDIR) $(TARGET)
 
+.PHONY: clean
