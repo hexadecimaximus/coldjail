@@ -1,25 +1,27 @@
+/*
+ * Coldjail - Minimalist Linux sandbox
+ * Copyright (c) 2026 Rodrigo de Freitas
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 #ifndef COLDJAIL_H
 #define COLDJAIL_H
 
-#include <sys/types.h>
+// Opaque type: definition hidden in jail.c
+typedef struct coldjail ColdJail;
 
-// namespaces
-int setup_namespaces(int net_none);
+// Constructor and destructor
+ColdJail *coldjail_new(const char *rootfs);
+void coldjail_free(ColdJail *cj);
 
-// mounts
-int setup_mounts(const char *rootfs);
+// Configuration control
+void coldjail_set_net_none(ColdJail *cj, int enabled);
+const char *coldjail_get_hostname(const ColdJail *cj);
+const char *coldjail_get_rootfs(const ColdJail *cj);
+int coldjail_get_net_none(const ColdJail *cj);
 
-// devices
-int setup_devices(void);
-
-// hostname
-int setup_hostname(const char *hostname);
-
-// exec
-int exec_shell(void);
-
-// jail
-int run_jail(const char *rootfs, int net_none);
+// Main execution
+int coldjail_run(ColdJail *cj);
 
 #endif
-

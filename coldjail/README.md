@@ -77,3 +77,6 @@ You will be greeted with: [Coldjail] # — you are now inside the ice wall!
 
 Coldjail is an original implementation, inspired by the sandboxing concepts of Firejail, Bubblewrap, and nsjail, but without code reuse. Its purpose is academic and technical, 
 aiming to deepen the understanding of Linux isolation.
+Coldjail is licensed under the **MIT License** — see [`LICENSE`](LICENSE) for details.
+
+Copyright (c) 2026 Rodrigo de Freitas

@@ -1,7 +1,16 @@
-#include <stdio.h>
-#include <unistd.h>
+/*
+ * Coldjail - Minimalist Linux sandbox
+ * Copyright (c) 2026 Rodrigo de Freitas
+ *
+ * SPDX-License-Identifier: MIT
+ */
 
-int exec_shell(void) {
+#include <unistd.h>
+#include <stdio.h>
+#include "coldjail.h"
+
+int exec_shell_impl(ColdJail *cj) {
+    (void) cj;
     char *args[] = {"/bin/sh", "-i", NULL};
     char *envp[] = {
         "PATH=/bin:/sbin:/usr/bin:/usr/sbin",
@@ -9,10 +18,10 @@ int exec_shell(void) {
         "PS1=[Coldjail] \\$ ",
         NULL
     };
-    
-    printf("\nColdjail - Security by default, simplicity by design\nPress CTRL + D to exit\n");
+
+    printf("\nColdjail - Security by default, simplicity by design\n");
+    printf("Press CTRL + D to exit\n");
     execve("/bin/sh", args, envp);
-    perror("[-] Failed to exec shell");
+    perror("[-] exec shell");
     return 1;
 }
-

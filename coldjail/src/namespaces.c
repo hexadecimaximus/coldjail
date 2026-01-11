@@ -1,45 +1,45 @@
-#define _GNU_SOURCE
-#include <sched.h>      // CLONE_* flags
-#include <unistd.h>     // unshare, fork, getuid
-#include <stdio.h>      // printf, perror
-#include <stdlib.h>     // getenv, atoi
-#include <string.h>     // strcmp
-#include <sys/wait.h>   // waitpid, WEXITSTATUS
-#include <stdio.h>
+/*
+ * Coldjail - Minimalist Linux sandbox
+ * Copyright (c) 2026 Rodrigo de Freitas
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 #include <sched.h>
-#include <unistd.h>
 #include <sys/mount.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <stdio.h>
+#include "coldjail.h"
 
-int setup_namespaces(int net_none) {
+int setup_namespaces_impl(ColdJail *cj) {
     int flags = CLONE_NEWNS | CLONE_NEWPID | CLONE_NEWUTS;
-
-    if (net_none) {
+    if (coldjail_get_net_none(cj)) {
         flags |= CLONE_NEWNET;
-          printf("[*] Network namespace isolated (CLONE_NEWNET)\n");
+        printf("[*] Network namespace isolated (CLONE_NEWNET)\n");
     }
 
     if (unshare(flags) == -1) {
-          perror("[-] Failed to unshare");
+        perror("[-] unshare");
         return 1;
     }
 
     if (mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL) == -1) {
-          perror("[-] Failed to make mounts private");
+        perror("[-] mount private");
         return 1;
     }
 
-    // second fork so grandchild becomes PID 1
-    pid_t init = fork();
-    if (init < 0) {
-          perror("[-] Failed to fork init");
+    pid_t pid = fork();
+    if (pid < 0) {
+        perror("[-] fork");
         return 1;
     }
-    if (init > 0) {
+
+    if (pid > 0) {
         int status;
-        waitpid(init, &status, 0);
+        waitpid(pid, &status, 0);
         _exit(WEXITSTATUS(status));
     }
 
     return 0;
 }
-
