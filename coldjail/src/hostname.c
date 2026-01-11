@@ -11,7 +11,8 @@
 #include "coldjail.h"
 
 int setup_hostname_impl(ColdJail *cj) {
-    if (sethostname(cj->hostname, strlen(cj->hostname)) == -1) {
+    const char *hostname = coldjail_get_hostname(cj);
+    if (sethostname(hostname, strlen(hostname)) == -1) {
         perror("[-] sethostname");
         return 1;
     }
