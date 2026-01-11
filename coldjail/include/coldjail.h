@@ -19,6 +19,7 @@ void coldjail_free(ColdJail *cj);
 void coldjail_set_net_none(ColdJail *cj, int enabled);
 const char *coldjail_get_hostname(const ColdJail *cj);
 const char *coldjail_get_rootfs(const ColdJail *cj);
+int coldjail_get_net_none(const ColdJail *cj);
 
 // Main execution
 int coldjail_run(ColdJail *cj);
