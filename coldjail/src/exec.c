@@ -10,6 +10,7 @@
 #include "coldjail.h"
 
 int exec_shell_impl(ColdJail *cj) {
+    (void) cj;
     char *args[] = {"/bin/sh", "-i", NULL};
     char *envp[] = {
         "PATH=/bin:/sbin:/usr/bin:/usr/sbin",

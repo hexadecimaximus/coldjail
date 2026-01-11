@@ -12,6 +12,7 @@
 #include "coldjail.h"
 
 int setup_devices_impl(ColdJail *cj) {
+    (void) cj;
     struct stat st;
     if (stat("/dev/null", &st) == -1) {
         if (mknod("/dev/null", S_IFCHR | 0666, makedev(1, 3)) == -1)
