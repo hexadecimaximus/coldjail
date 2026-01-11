@@ -1,13 +1,47 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "coldjail.h"
+#include <stdlib.h>
+#include <string.h>
 
-int run_jail(const char *rootfs, int net_none) {
-    if (setup_namespaces(net_none) != 0) return 1;
-    if (setup_mounts(rootfs) != 0) return 1;
-    if (setup_devices() != 0) return 1;
-    if (setup_hostname("coldjail") != 0) return 1;
-    if (exec_shell() != 0) return 1;
-    return 0;
+
+struct coldjail {
+    //private data
+    char *rootfs;
+    const char *hostname;
+    int net_none;  // 1 = isolated (default)
+};
+
+// Forward declarations of modules
+int setup_namespaces_impl(ColdJail *cj);
+int setup_mounts_impl(ColdJail *cj);
+int setup_devices_impl(ColdJail *cj);
+int setup_hostname_impl(ColdJail *cj);
+int exec_shell_impl(ColdJail *cj);
+
+ColdJail *coldjail_new(const char *rootfs) {
+    ColdJail *cj = calloc(1, sizeof(ColdJail));
+    if (!cj) return NULL;
+    cj->rootfs = strdup(rootfs);
+    cj->hostname = "coldjail";
+    cj->net_none = 1;  // secure by default
+    return cj;
 }
 
+void coldjail_free(ColdJail *cj) {
+    if (cj) {
+        free(cj->rootfs);
+        free(cj);
+    }
+}
+
+void coldjail_set_net_none(ColdJail *cj, int enabled) {
+    cj->net_none = enabled;
+}
+
+int coldjail_run(ColdJail *cj) {
+    if (setup_namespaces_impl(cj) != 0) return 1;
+    if (setup_mounts_impl(cj) != 0) return 1;
+    if (setup_devices_impl(cj) != 0) return 1;
+    if (setup_hostname_impl(cj) != 0) return 1;
+    if (exec_shell_impl(cj) != 0) return 1;
+    return 0;
+}
