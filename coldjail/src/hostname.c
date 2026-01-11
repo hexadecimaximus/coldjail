@@ -1,14 +1,12 @@
-#include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdio.h>
+#include "coldjail.h"
 
-int setup_hostname(const char *hostname) {
-    size_t len = strlen(hostname);
-    if (sethostname(hostname, len) == -1) {
-        perror("[-] Fail sethostname");
+int setup_hostname_impl(ColdJail *cj) {
+    if (sethostname(cj->hostname, strlen(cj->hostname)) == -1) {
+        perror("[-] sethostname");
         return 1;
     }
-    
     return 0;
 }
-
