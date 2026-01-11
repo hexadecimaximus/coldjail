@@ -18,12 +18,14 @@ static int do_pivot_root(const char *new_root, const char *put_old) {
 }
 
 int setup_mounts_impl(ColdJail *cj) {
-    if (mount(cj->rootfs, cj->rootfs, NULL, MS_BIND | MS_REC, NULL) == -1) {
+    const char *rootfs = coldjail_get_rootfs(cj);
+
+    if (mount(rootfs, rootfs, NULL, MS_BIND | MS_REC, NULL) == -1) {
         perror("[-] bind mount rootfs");
         return 1;
     }
 
-    if (chdir(cj->rootfs) == -1) {
+    if (chdir(rootfs) == -1) {
         perror("[-] chdir rootfs");
         return 1;
     }

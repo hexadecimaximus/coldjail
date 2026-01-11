@@ -48,6 +48,10 @@ const char *coldjail_get_hostname(const ColdJail *cj) {
     return cj->hostname;
 }
 
+const char *coldjail_get_rootfs(const ColdJail *cj) {
+    return cj->rootfs;
+}
+
 int coldjail_run(ColdJail *cj) {
     if (setup_namespaces_impl(cj) != 0) return 1;
     if (setup_mounts_impl(cj) != 0) return 1;
