@@ -52,6 +52,10 @@ const char *coldjail_get_rootfs(const ColdJail *cj) {
     return cj->rootfs;
 }
 
+int coldjail_get_net_none(const ColdJail *cj) {
+    return cj->net_none;
+}
+
 int coldjail_run(ColdJail *cj) {
     if (setup_namespaces_impl(cj) != 0) return 1;
     if (setup_mounts_impl(cj) != 0) return 1;
